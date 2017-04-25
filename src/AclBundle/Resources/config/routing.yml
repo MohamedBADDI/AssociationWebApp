@@ -1,0 +1,3 @@
+acl_homepage:
+    path:     /
+    defaults: { _controller: AclBundle:Default:index }
