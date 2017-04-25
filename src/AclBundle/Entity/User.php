@@ -63,11 +63,10 @@ class User extends BaseUser
     private $phone;
 
     /**
-     * @var \AclBundle\Entity\Image
-     *
+     * @var string
+     * @ORM\Column(name="photo", type="string", length=255)
      * @Assert\NotBlank(message="Please, upload the picture as a image file.")
-     * @Assert\Image(mimeTypes={ "image/jpeg" })
-     * @ORM\OneToOne(targetEntity="Image", cascade={"remove", "persist"})
+     * @Assert\Image(mimeTypes={ "image/*" })
      *
      */
     private $photo;
@@ -85,6 +84,12 @@ class User extends BaseUser
     private $role = [];
 
 
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->dateInscription = new \DateTime('NOW');
+    }
 
     /**
      * Get id
@@ -247,25 +252,6 @@ class User extends BaseUser
 
 
     /**
-     * Get photo
-     *
-     * @return \AclBundle\Entity\Image
-     */
-    public function getPhoto()
-    {
-        return $this->photo;
-    }
-
-    /**
-     * @param \AclBundle\Entity\Image $photo
-     *
-     */
-    public function setPhoto(Image $photo = null)
-    {
-        $this->photo = $photo;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getDateInscription()
@@ -281,12 +267,22 @@ class User extends BaseUser
         $this->dateInscription = $dateInscription;
     }
 
-
-
-    public function __construct()
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
     {
-        parent::__construct();
-        $this->dateInscription = new \DateTime('NOW');
+        return $this->photo;
     }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+    }
+
+
 }
 

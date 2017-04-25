@@ -168,7 +168,5 @@ class Image
         return __DIR__.'/../../../../web/'.$this->getUploadDir();
     }
 
-    //public function __toString() {
-      //  return is_null($this->file) ? 'null' : $this->file;
-    //}
+
 }
