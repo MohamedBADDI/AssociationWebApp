@@ -85,3 +85,4 @@ fos_user:
     registration:
         form:
             type: AclBundle\Form\RegistrationType
+

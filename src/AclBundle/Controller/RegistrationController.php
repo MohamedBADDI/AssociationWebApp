@@ -55,7 +55,7 @@ class RegistrationController extends BaseController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 // $file stores the uploaded PDF file
-                /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+                /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
                 $file = $user->getPhoto();
 
                 // Generate a unique name for the file before saving it
@@ -95,6 +95,7 @@ class RegistrationController extends BaseController
         return $this->render('@FOSUser/Registration/register.html.twig', array(
             'form' => $form->createView(),
         ));
+        
     }
 
 }
