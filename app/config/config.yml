@@ -73,6 +73,7 @@ swiftmailer:
     spool: { type: memory }
 
 # FOSUserBundle Configuration
+
 fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
@@ -85,4 +86,10 @@ fos_user:
     registration:
         form:
             type: AclBundle\Form\RegistrationType
+<<<<<<< HEAD
 
+=======
+    profile:
+        form:
+            type: AclBundle\Form\ProfileFormType
+>>>>>>> 6e16592c96a32eb54e5537a23c2c6e06a06e8fd1

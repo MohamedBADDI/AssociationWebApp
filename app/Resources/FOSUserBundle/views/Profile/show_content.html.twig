@@ -6,6 +6,10 @@
 
     <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
     <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
+<<<<<<< HEAD
     <p>Birthdate: {{ user.birthdate |date('Y-m-d') }}</p>
     <a href="{{ path('fos_user_profile_edit') }}">edit user !</a>
+=======
+    {{ user.firstname }}
+>>>>>>> 6e16592c96a32eb54e5537a23c2c6e06a06e8fd1
 </div>
