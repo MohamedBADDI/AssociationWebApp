@@ -1,3 +1,7 @@
+acl_user:
+    resource: "@AclBundle/Controller/UserController.php"
+    type:     annotation
+
 acl:
     resource: "@AclBundle/Resources/config/routing.yml"
     prefix:   /

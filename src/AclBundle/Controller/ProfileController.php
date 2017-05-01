@@ -78,7 +78,19 @@ class ProfileController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var $userManager UserManagerInterface */
             $userManager = $this->get('fos_user.user_manager');
+            $file = $user->getPhoto();
 
+            // Generate a unique name for the file before saving it
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+            // Move the file to the directory where photos are stored
+            $file->move(
+                $this->getParameter('photos_directory'),
+                $fileName
+            );
+
+
+            $user->setPhoto($fileName);
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
 
