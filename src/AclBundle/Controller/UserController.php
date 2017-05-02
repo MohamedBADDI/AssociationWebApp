@@ -5,7 +5,8 @@ namespace AclBundle\Controller;
 use AclBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -91,6 +92,9 @@ class UserController extends Controller
      *
      * @Route("/{id}/edit", name="admin_user_edit")
      * @Method({"GET", "POST"})
+     * @param Request $request
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, User $user)
     {
@@ -98,11 +102,38 @@ class UserController extends Controller
         $editForm = $this->createForm('AclBundle\Form\UserType', $user);
         $editForm->handleRequest($request);
 
+        //** @var $formFactory FactoryInterface */
+        //change password = fos_user.change_password.form.factory
+        //$formFactory = $this->get('fos_user.profile.form.factory');
+
+        //$editForm = $formFactory->createForm();
+        //$editForm->setData($user);
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            // Getting the variable of the form
+            $selectedUser = $user->getId();
+
+            // Getting the user infos
+            $editUser = $this->getDoctrine()->getRepository('AclBundle:User')->find($selectedUser);
+            // Using the UserManager (from the FOSUserBundle)
+            $userManager = $this->container->get('fos_user.user_manager');
+            $user = $userManager->findUserByUsername($editUser->getUsername());
+            $role = $editForm['roles']->getData();
+
+            // Changing the role of the user
+            $user->setRoles(array($role));
+
+
+
+            //$user->setRoles(array($selectedUser['roles']));
+            // Updating the user
+
+            $userManager->updateUser($user);
+
             $file = $user->getPhoto();
 
             // Generate a unique name for the file before saving it
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $fileName = $user->getLastname().'_'.md5(uniqid()).'.'.$file->guessExtension();
 
             // Move the file to the directory where photos are stored
             $file->move(
