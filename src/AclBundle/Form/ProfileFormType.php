@@ -41,7 +41,8 @@ class ProfileFormType extends AbstractType
             ]
         )
         ->add('phone',TextType::class)
-        ->add('photo', FileType::class, array('data_class'=>null,'label' => 'image : ','required' => false,'attr' => array('accept' => 'image/jpeg')));
+            ->add('photo' , imageType::class);
+        //->add('photo', FileType::class, array('data_class'=>null,'label' => 'image : ','required' => false,'attr' => array('accept' => 'image/jpeg')));
     }
 
     public function getParent()

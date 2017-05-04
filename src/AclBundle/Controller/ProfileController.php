@@ -8,6 +8,7 @@
 
 namespace AclBundle\Controller;
 
+use AclBundle\Entity\User;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -34,12 +35,21 @@ class ProfileController extends BaseController
     public function showAction()
     {
         $user = $this->getUser();
+        $user_avatar = new User();
+        $fullname = $user_avatar->fullName();
+        $message=$user_avatar->birthday_day();
+
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
-
+        
+        //dump($user_avatar->getPhoto());
+        //die;
         return $this->render('@FOSUser/Profile/show.html.twig', array(
             'user' => $user,
+            'user_image'=> $user_avatar,
+            'fname'=>$fullname,
+            'message_birthday'=>$message,
         ));
     }
 
@@ -78,19 +88,23 @@ class ProfileController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var $userManager UserManagerInterface */
             $userManager = $this->get('fos_user.user_manager');
-            $file = $user->getPhoto();
-
-            // Generate a unique name for the file before saving it
-            $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-            // Move the file to the directory where photos are stored
-            $file->move(
-                $this->getParameter('photos_directory'),
-                $fileName
-            );
-
-
-            $user->setPhoto($fileName);
+//            $file = $user->getPhoto();
+//
+//            // Generate a unique name for the file before saving it
+//            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+//
+//            // Move the file to the directory where photos are stored
+//            $file->move(
+//                $this->getParameter('photos_directory'),
+//                $fileName
+//            );
+//
+//
+//            $user->setPhoto($fileName);
+            //dump($user->getPhoto());
+            //die;
+            $user->getPhoto()->getAbsolutePath();
+            $user->getPhoto()->upload();
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
 
@@ -106,7 +120,7 @@ class ProfileController extends BaseController
             return $response;
         }
 
-        return $this->render('@FOSUser/Profile/edit_content.html.twig', array(
+        return $this->render('@FOSUser/Profile/edit.html.twig', array(
             'form' => $form->createView(),
         ));
     }

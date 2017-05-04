@@ -80,10 +80,11 @@ class UserController extends Controller
     public function showAction(User $user)
     {
         $deleteForm = $this->createDeleteForm($user);
-
+        $fullname = $user->fullName();
         return $this->render('user/show.html.twig', array(
             'user' => $user,
             'delete_form' => $deleteForm->createView(),
+            'fname' => $fullname
         ));
     }
 
@@ -131,18 +132,24 @@ class UserController extends Controller
             $userManager->updateUser($user);
 
             $file = $user->getPhoto();
+            if (empty($file)){
+                if($user->getPhoto() != null)
+                {
+                    $fileName = $user->getLastname().'_'.md5(uniqid()).'.'.$file->guessExtension();
 
+                    // Move the file to the directory where photos are stored
+                    $file->move(
+                        $this->getParameter('photos_directory'),
+                        $fileName
+                    );
+
+                    $user->setPhoto($fileName);
+                }
+            }
             // Generate a unique name for the file before saving it
-            $fileName = $user->getLastname().'_'.md5(uniqid()).'.'.$file->guessExtension();
-
-            // Move the file to the directory where photos are stored
-            $file->move(
-                $this->getParameter('photos_directory'),
-                $fileName
-            );
 
 
-            $user->setPhoto($fileName);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_user_edit', array('id' => $user->getId()));

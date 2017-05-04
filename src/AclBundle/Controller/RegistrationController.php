@@ -8,6 +8,9 @@
 
 namespace AclBundle\Controller;
 
+use AclBundle\Entity\image;
+use AclBundle\Form\RegistrationType;
+use AclBundle\Form\UserType;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -46,8 +49,10 @@ class RegistrationController extends BaseController
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
-
+        //dump($formFactory);
+        //die;
         $form = $formFactory->createForm();
+
         $form->setData($user);
 
         $form->handleRequest($request);
@@ -55,20 +60,25 @@ class RegistrationController extends BaseController
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 // $file stores the uploaded PDF file
-                /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
-                $file = $user->getPhoto();
+//                /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+//                $file = $user->getPhoto();
+//
+//                // Generate a unique name for the file before saving it
+//                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+//
+//                // Move the file to the directory where photos are stored
+//                $file->move(
+//                    $this->getParameter('photos_directory'),
+//                    $fileName
+//                );
+//
+//
+//                $user->setPhoto($fileName);
 
-                // Generate a unique name for the file before saving it
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-                // Move the file to the directory where photos are stored
-                $file->move(
-                    $this->getParameter('photos_directory'),
-                    $fileName
-                );
+                $user->getPhoto()->upload();
+                dump($user);
 
 
-                $user->setPhoto($fileName);
                 $event = new FormEvent($form, $request);
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
 
@@ -95,7 +105,7 @@ class RegistrationController extends BaseController
         return $this->render('@FOSUser/Registration/register.html.twig', array(
             'form' => $form->createView(),
         ));
-        
+
     }
 
 }

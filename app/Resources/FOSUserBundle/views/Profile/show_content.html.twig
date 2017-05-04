@@ -2,11 +2,62 @@
 
 <div class="fos_user_user_show">
 
-    <img src="{{ asset('photos/profiles/' ~ user.photo) }}" class="img-rounded" alt="Cinque Terre" width="304" height="236"/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="p_title">
+                    <img src="{{ asset('photos/profiles/' ~ user.photo.path) }}" class="img-rounded" alt="Member" width="300" height="300"/>
+                    <h2>{{ fname }}</h2>
+                </div>
+            </div>
 
-    <p>{{ 'profile.show.username'|trans }}: {{ user.username }}</p>
-    <p>{{ 'profile.show.email'|trans }}: {{ user.email }}</p>
-    <p>Birthdate: {{ user.birthdate |date('Y-m-d') }}</p>
-    <a href="{{ path('fos_user_profile_edit') }}">edit user !</a>
-    {{ user.firstname }}
+            <div class="col-md-8">
+                <table class="table_profile">
+                    <tbody>
+                    <tr>
+                        <th>Cin</th>
+                        <td>{{ user.cin }}</td>
+                    </tr>
+                    <tr>
+                        <th>Username</th>
+                        <td>{{ user.username }}</td>
+                    </tr>
+                    <tr>
+                        <th>Firstname</th>
+                        <td>{{ user.firstname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lastname</th>
+                        <td>{{ user.lastname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Birthdate</th>
+                        <td>{% if user.birthdate %}{{ user.birthdate|date('m/d/Y') }}{% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td><a href="tel:{{ user.phone }}">{{ user.phone }}</a></td>
+                    </tr>
+                    <tr>
+                        <th>Date inscription</th>
+                        <td>{% if user.dateInscription %}{{ user.dateInscription|date('d/m/Y') }}{% endif %}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="buttons_pad">
+                        <div class="col-md-4 offset-md-8"> <a class="btn_profile btn btn-success" href="{{ path('fos_user_profile_edit') }}">Edit my informations</a></div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
+

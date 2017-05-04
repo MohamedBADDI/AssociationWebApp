@@ -17,8 +17,6 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder ->add('cin',TextType::class)
             ->add('firstname',TextType::class)
             ->add('lastname',TextType::class)
@@ -38,12 +36,16 @@ class UserType extends AbstractType
             ->add('roles', ChoiceType::class, array('attr' => array('class' => 'form-control'),
                 'mapped' => false,
                 'choices' => array(
+                    'ROLE_ADMIN'=> 'ROLE_ADMIN',
                     'ROLE_SUPER_ADMIN'=> 'ROLE_SUPER_ADMIN',
                     'ROLE_MANAGER'=> 'ROLE_MANAGER',
                     'ROLE_ASSOCIATION'=> 'ROLE_ASSOCIATION',
                     'ROLE_MEMBER' => 'ROLE_MEMBER'
                 ),
-                'multiple' => false,));
+                'placeholder' => 'Choose an option',
+                //'placeholder' => false,
+                'multiple' => false,
+            ));
 
     }
     

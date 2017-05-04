@@ -63,11 +63,7 @@ class User extends BaseUser
     private $phone;
 
     /**
-     * @var string
-     * @ORM\Column(name="photo", type="string", length=255)
-     * @Assert\NotBlank(message="Please, upload the picture as a image file.")
-     * @Assert\Image(mimeTypes={ "image/*" })
-     *
+     * @ORM\OneToOne(targetEntity="AclBundle\Entity\image", cascade={"remove", "persist"})
      */
     private $photo;
 
@@ -77,9 +73,7 @@ class User extends BaseUser
      * @ORM\Column(name="dateSubscribe", type="date", length=255)
      */
     private $dateInscription;
-
-
-
+    
 
 
     public function __construct()
@@ -87,6 +81,7 @@ class User extends BaseUser
         parent::__construct();
         $this->dateInscription = new \DateTime('NOW');
         $this->setRoles(array('ROLE_SUPER_ADMIN'));
+        $this->photo= new image();
     }
 
     /**
@@ -242,7 +237,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return mixed
+     * @return \AclBundle\Entity\image
      */
     public function getPhoto()
     {
@@ -250,13 +245,18 @@ class User extends BaseUser
     }
 
     /**
-     * @param mixed $photo
+     * @param \AclBundle\Entity\image $photo
+     * @return User
      */
-    public function setPhoto($photo)
+    public function setPhoto(image $photo=null)
     {
         $this->photo = $photo;
     }
 
+    public function getAvatar() {
+        return $this->photo->getWebPath();
+    }
+
+
 
 }
-

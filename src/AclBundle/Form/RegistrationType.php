@@ -7,6 +7,7 @@
  */
 namespace AclBundle\Form;
 
+use AclBundle\Form\imageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -33,7 +34,8 @@ class RegistrationType extends AbstractType
                 ]
             )
             ->add('phone',TextType::class)
-            ->add('photo', FileType::class, array('label' => 'Image du profile'));
+            ->add('photo' , imageType::class)
+        ;
 
     }
 
