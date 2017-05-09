@@ -5,9 +5,8 @@ namespace AclBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use FOS\UserBundle\Model\User as BaseUser;
+use FOS\MessageBundle\Model\ParticipantInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -16,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="ab_user")
  * @ORM\Entity(repositoryClass="AclBundle\Repository\UserRepository")
  */
-class User extends BaseUser
+class User extends BaseUser implements ParticipantInterface
 {
     /**
      * @var int
@@ -73,14 +72,14 @@ class User extends BaseUser
      * @ORM\Column(name="dateSubscribe", type="date", length=255)
      */
     private $dateInscription;
-    
+
 
 
     public function __construct()
     {
         parent::__construct();
         $this->dateInscription = new \DateTime('NOW');
-        $this->setRoles(array('ROLE_SUPER_ADMIN'));
+        $this->setRoles(array('ROLE_MEMBER'));
         $this->photo= new image();
     }
 
@@ -271,8 +270,8 @@ class User extends BaseUser
         die;
         else {
         return false;
+    }
     }*/
 
 
-    }
 }

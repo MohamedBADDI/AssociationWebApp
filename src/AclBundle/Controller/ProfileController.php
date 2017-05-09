@@ -37,8 +37,6 @@ class ProfileController extends BaseController
         $user = $this->getUser();
         $user_avatar = new User();
         $fullname = $user_avatar->fullName();
-        $message=$user_avatar->birthday_day();
-
         if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }
@@ -49,7 +47,6 @@ class ProfileController extends BaseController
             'user' => $user,
             'user_image'=> $user_avatar,
             'fname'=>$fullname,
-            'message_birthday'=>$message,
         ));
     }
 

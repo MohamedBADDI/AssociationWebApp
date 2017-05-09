@@ -66,19 +66,13 @@
         {{ form_errors(form.photo) }}
         {{ form_widget(form.photo, { 'attr': {'class': 'form-control-file'} }) }}
     </div>
-    <label class="custom-file">
 
-
-
-
-
-    </label>
 
     <div>
         <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
     </div>
 
-    {{ form_end(form) }}
-</div>
 
+</div>
+{{ form_end(form) }}
 

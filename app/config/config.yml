@@ -89,3 +89,8 @@ fos_user:
     profile:
         form:
             type: AclBundle\Form\ProfileFormType
+
+fos_message:
+    db_driver: orm
+    thread_class: AclBundle\Entity\Thread
+    message_class: AclBundle\Entity\Message

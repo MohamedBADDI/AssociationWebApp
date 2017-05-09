@@ -46,6 +46,33 @@
                         <th>Date inscription</th>
                         <td>{% if user.dateInscription %}{{ user.dateInscription|date('d/m/Y') }}{% endif %}</td>
                     </tr>
+
+                    <tr>
+                        <th>Roles</th>
+                        <td>
+                            <ul>
+                                {% for role in user.roles %}
+                                    <li>
+                                        {{ role }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Groups</th>
+                        <td>
+                            <ul>
+                                {% for group in user.groups %}
+                                    <li>
+                                        {{ group }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+
                     </tbody>
                 </table>
             </div>

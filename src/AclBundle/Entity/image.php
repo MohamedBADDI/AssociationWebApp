@@ -55,6 +55,7 @@ class image
         if($this->path === null){
             $this->path= 'anonymous.png';
         }
+
     }
 
     /************ Les setters et getters ************/

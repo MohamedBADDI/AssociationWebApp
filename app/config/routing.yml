@@ -1,3 +1,7 @@
+acl_roles:
+    resource: "@AclBundle/Controller/RolesController.php"
+    type:     annotation
+
 acl_user:
     resource: "@AclBundle/Controller/UserController.php"
     type:     annotation
@@ -16,3 +20,7 @@ fos_user:
 fos_user_group:
     resource: "@FOSUserBundle/Resources/config/routing/group.xml"
     prefix: /group
+
+fos_message:
+    resource: "@FOSMessageBundle/Resources/config/routing.xml"
+    prefix: /chat
